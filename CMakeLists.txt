@@ -40,6 +40,7 @@ set_target_properties(ImprovedVehicleCam PROPERTIES
 if(MSVC)
     target_compile_options(ImprovedVehicleCam PRIVATE
         /W3
+	/O2
         /MT
     )
 
