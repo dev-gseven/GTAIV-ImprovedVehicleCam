@@ -60,7 +60,7 @@ add_custom_command(TARGET ImprovedVehicleCam POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo "VehicleXTurnSpeed=8" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo "" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo ";Vertical camera turn speed" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
-    COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Recommended is 5" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
-    COMMAND ${CMAKE_COMMAND} -E echo "VehicleYTurnSpeed=5" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Recommended is 6" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "VehicleYTurnSpeed=6" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     VERBATIM
 )

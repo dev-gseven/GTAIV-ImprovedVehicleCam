@@ -9,12 +9,10 @@
 
 namespace
 {
-    // The standalone version keeps the same game signatures and camera math as
-    // FusionFix. Its only configuration is CamTurnSpeed.ini beside the ASI.
     struct Config
     {
-        int8_t vehKbXTurn = 8;
-        int8_t vehKbYTurn = 5;
+        int8_t vehKbXTurn;
+        int8_t vehKbYTurn;
     } cfg;
     
     safetyhook::MidHook vehicleXHook, vehicleYHook;
@@ -48,20 +46,13 @@ namespace
     void LoadConfig()
     {
         cfg.vehKbXTurn = Setting("VehicleXTurnSpeed", 8, 1, 9);
-        cfg.vehKbYTurn = Setting("VehicleYTurnSpeed", 5, 1, 9);
-    }
-
-    void* Find(const char* a, const char* b = nullptr)
-    {
-        hook::pattern p(a);
-        if (p.empty() && b) p = hook::pattern(b);
-        return p.empty() ? nullptr : p.get_first();
+        cfg.vehKbYTurn = Setting("VehicleYTurnSpeed", 6, 1, 9);
     }
 
     void Install()
     {
-        auto axisX  = Find("F3 0F 5E C1 F3 0F 11 44 24 60 0F 84");
-        auto axisY = Find("F3 0F 5E C2 F3 0F 11 44 24 70 F3 0F 10");
+        auto axisX = hook::pattern("F3 0F 5E C1 F3 0F 11 44 24 60 0F 84").get_first(); // (F3 0F 5E C1 F3 0F 11 44 24 ? 0F 84) 60 = 0x60
+        auto axisY = hook::pattern("F3 0F 5E C2 F3 0F 11 44 24 70 F3 0F").get_first(); // (F3 0F 5E C2 F3 0F 11 44 24 ? F3 0F) 70 = 0x70
 
         if (axisX && axisY){
             LoadConfig();
@@ -71,24 +62,24 @@ namespace
             VirtualProtect(axisX, 10, PAGE_EXECUTE_READWRITE, &oldProtect);
             memset(axisX, 0x90, 10);
             VirtualProtect(axisX, 10, oldProtect, &oldProtect);
-            vehicleXHook = safetyhook::create_mid(axisX, [](SafetyHookContext& r)
+            vehicleXHook = safetyhook::create_mid(axisX, [](SafetyHookContext &reg)
             {
                 const int8_t turn = cfg.vehKbXTurn;
-                const float v = r.xmm0.f32[0] / (r.xmm1.f32[0] * (1.0f - turn * 0.1f));
-                float& target = *reinterpret_cast<float*>(r.esp + 0x60);
-                target = v;
+                const float adjustedTurnSpeed = reg.xmm0.f32[0] / (reg.xmm1.f32[0] * (1.0f - turn * 0.1f));
+                float &turnSpeed = *(float*)(reg.esp + 0x60);
+                turnSpeed = adjustedTurnSpeed;
             });
 
             // Axis Y
             VirtualProtect(axisY, 10, PAGE_EXECUTE_READWRITE, &oldProtect);
             memset(axisY, 0x90, 10);
             VirtualProtect(axisY, 10, oldProtect, &oldProtect);
-            vehicleYHook = safetyhook::create_mid(axisY, [](SafetyHookContext& r)
+            vehicleYHook = safetyhook::create_mid(axisY, [](SafetyHookContext &reg)
             {
                 const int8_t turn = cfg.vehKbYTurn;
-                const float v = r.xmm0.f32[0] / (r.xmm2.f32[0] * (1.0f - turn * 0.1f));
-                float& target = *reinterpret_cast<float*>(r.esp + 0x70);
-                target = v;
+                const float adjustedTurnSpeed = reg.xmm0.f32[0] / (reg.xmm2.f32[0] * (1.0f - turn * 0.1f));
+                float &turnSpeed = *(float*)(reg.esp + 0x70);
+                turnSpeed = adjustedTurnSpeed;
             });
 
             installed = true;
