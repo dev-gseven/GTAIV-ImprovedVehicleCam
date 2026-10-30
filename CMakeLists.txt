@@ -56,11 +56,19 @@ endif()
 add_custom_command(TARGET ImprovedVehicleCam POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo "[Camera]" > "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo ";Horizontal camera turn speed." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
-    COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Recommended is 8" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Default is 8" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo "VehicleXTurnSpeed=8" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo "" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
-    COMMAND ${CMAKE_COMMAND} -E echo ";Vertical camera turn speed" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
-    COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Recommended is 6" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";Vertical camera turn speed." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Default is 6" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo "VehicleYTurnSpeed=6" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";Vehicle Theft Camera." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";0 or 1 - Default is 0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "VehicleTheftCam=0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";Vehicle Stunt Camera." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";0 or 1 - Default is 0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "VehicleStuntJump=0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     VERBATIM
 )
