@@ -29,6 +29,7 @@ target_include_directories(ImprovedVehicleCam PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/external/hooking"
     "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/zydis"
     "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/safetyhook/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/injector"
 )
 
 set_target_properties(ImprovedVehicleCam PROPERTIES
@@ -70,5 +71,9 @@ add_custom_command(TARGET ImprovedVehicleCam POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo ";Vehicle Stunt Camera." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo ";0 or 1 - Default is 0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo "VehicleStuntJump=0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";Camera Center in Cover." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo ";0 or 1 - Default is 0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    COMMAND ${CMAKE_COMMAND} -E echo "CameraCenterInCover=0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     VERBATIM
 )

@@ -6,6 +6,7 @@
 #include <cstring>
 #include <optional>
 #include <safetyhook.hpp>
+#include <injector.hpp>
 #include <Hooking.Patterns.h>
 #include <Zydis.h>
 
@@ -21,6 +22,7 @@ struct Config
     int8_t vehKbYTurn;
     bool theftCam;
     bool stuntJump;
+    bool coverCentering;
 } cfg;
 
 namespace CIntermezzoEventPlayerJackVehicle
@@ -114,6 +116,7 @@ void LoadConfig()
     cfg.vehKbYTurn = Setting("VehicleYTurnSpeed", 6, 1, 9);
     cfg.theftCam = Setting("VehicleTheftCam", 0, 0, 1);
     cfg.stuntJump = Setting("VehicleStuntJump", 0, 0, 1);
+    cfg.coverCentering = Setting("CameraCenterInCover", 0, 0, 1);
 }
 
 void Install()
@@ -154,7 +157,6 @@ void Install()
         return;
     }
 
-
     // CarTheftCamera
     auto carJackPattern = hook::pattern("55 8B EC 83 E4 ? 83 EC ? 56 57 8B F9 E8 ? ? ? ? 84 C0 0F 85 ? ? ? ? E8 ? ? ? ? 8B F0 85 F6 0F 84 ? ? ? ? 8B 8E");
     CIntermezzoEventPlayerJackVehicle::shDetectTrigger = safetyhook::create_inline(carJackPattern.get_first(0), CIntermezzoEventPlayerJackVehicle::DetectTrigger);
@@ -169,6 +171,15 @@ void Install()
             return_to(loc_CC3F66);
         }
     });
+
+    // Disable Camera Center in Cover
+    bool CoverCenter = cfg.coverCentering;
+    if (!CoverCenter)
+        {
+            static constexpr float xmm_0 = FLT_MAX / 2.0f;
+            auto pattern = hook::pattern("F3 0F 10 05 ? ? ? ? F3 0F 58 46 ? 89 8C 24");
+            injector::WriteMemory(pattern.get_first(4), &xmm_0, true);
+        }
 }
 
 DWORD WINAPI InitThread(void*)
