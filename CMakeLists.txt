@@ -4,7 +4,19 @@ cmake_minimum_required(VERSION 3.21)
 project(ImprovedVehicleCam LANGUAGES C CXX)
 
 add_library(ImprovedVehicleCam SHARED
-    src/ImprovedVehicleCam.cpp
+    src/main.cpp
+    src/config/Config.h
+    src/config/Config.cpp
+    src/camera/CoverCentering.h
+    src/camera/CoverCentering.cpp
+    src/camera/VehicleStuntJump.h
+    src/camera/VehicleStuntJump.cpp
+    src/camera/VehicleTheftCamera.h
+    src/camera/VehicleTheftCamera.cpp
+    src/camera/VehicleTurnSpeed.h
+    src/camera/VehicleTurnSpeed.cpp
+    src/utils/HookUtils.h
+
     external/hooking/Hooking.Patterns.h
     external/hooking/Hooking.Patterns.cpp
     external/injector/zydis/Zydis.h
@@ -21,14 +33,20 @@ add_library(ImprovedVehicleCam SHARED
 target_compile_features(ImprovedVehicleCam PRIVATE cxx_std_23)
 
 target_compile_definitions(ImprovedVehicleCam PRIVATE
+    WIN32_LEAN_AND_MEAN
+    NOMINMAX
     NDEBUG
 )
 
 target_include_directories(ImprovedVehicleCam PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/safetyhook/include/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/config"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/camera"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/utils"
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/safetyhook/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/external/hooking"
     "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/zydis"
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/safetyhook/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/external/injector/injector"
 )
 
