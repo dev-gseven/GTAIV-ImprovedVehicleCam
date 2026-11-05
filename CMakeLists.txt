@@ -69,10 +69,11 @@ if(MSVC)
 endif()
 
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-    message(FATAL_ERROR "ImprovedVehicleCam precisa ser compilado para 32 bits (x86).")
+    message(FATAL_ERROR "ImprovedVehicleCam needs to be compiled in 32 bits (x86).")
 endif()
 
 add_custom_command(TARGET ImprovedVehicleCam POST_BUILD
+    # Create .ini file
     COMMAND ${CMAKE_COMMAND} -E echo "[Camera]" > "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo ";Horizontal camera turn speed." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo ";1 to 9 - Default is 8" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
@@ -93,5 +94,7 @@ add_custom_command(TARGET ImprovedVehicleCam POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo ";Camera Center in Cover." >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo ";0 or 1 - Default is 0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
     COMMAND ${CMAKE_COMMAND} -E echo "CameraCenterInCover=0" >> "$<TARGET_FILE_DIR:ImprovedVehicleCam>/ImprovedVehicleCam.ini"
+    # Copy licenses folder
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/licenses" "$<TARGET_FILE_DIR:ImprovedVehicleCam>/licenses"
     VERBATIM
 )
